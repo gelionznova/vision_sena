@@ -23,12 +23,12 @@ App web **full‑stack** (Backend **Django**, Frontend **React**) para **gestion
 
 ## 🏗️ Arquitectura
 
-- **Frontend**: React + Router + estado (Context/Redux) + UI library (a elección).  
-- **Backend**: Django + Django REST Framework (DRF) + JWT (djangorestframework‑simplejwt).  
-- **Reconocimiento**: servicio Python (OpenCV/mediapipe/face_recognition) + colas (Celery/Redis) opcional.  
-- **BD**: PostgreSQL (prod) / SQLite (dev).  
-- **Cámaras**: RTSP/RTMP/IP; ingesta vía ffmpeg/opencv; opcional **WebRTC** para baja latencia.  
-- **DevOps**: Docker Compose (nginx + backend + frontend + worker + db + redis).  
+- **Frontend**: React + Router + estado (Context/Redux) + UI library (a elección).
+- **Backend**: Django + Django REST Framework (DRF) + JWT (djangorestframework‑simplejwt).
+- **Reconocimiento**: servicio Python (OpenCV/mediapipe/face_recognition) + colas (Celery/Redis) opcional.
+- **BD**: PostgreSQL (prod) / SQLite (dev).
+- **Cámaras**: RTSP/RTMP/IP; ingesta vía ffmpeg/opencv; opcional **WebRTC** para baja latencia.
+- **DevOps**: Docker Compose (nginx + backend + frontend + worker + db + redis).
 - **Observabilidad**: logging estructurado + health checks + métricas (prometheus opcional).
 
 ```
@@ -56,11 +56,11 @@ App web **full‑stack** (Backend **Django**, Frontend **React**) para **gestion
 
 ## 🧠 Reconocimiento Facial (pipeline sugerido)
 
-1. **Detección de rostro** (Haar/MTCNN/MediaPipe).  
-2. **Alineación + normalización** (geométrica/iluminación).  
-3. **Extracción / embedding**: LBPH (rápido on‑edge) o CNN (FaceNet/ArcFace).  
-4. **Comparación**: distancia/coseno, umbral configurable por **nivel de seguridad** y **área**.  
-5. **Fusión con QR** (si aplica) + políticas (doble factor).  
+1. **Detección de rostro** (Haar/MTCNN/MediaPipe).
+2. **Alineación + normalización** (geométrica/iluminación).
+3. **Extracción / embedding**: LBPH (rápido on‑edge) o CNN (FaceNet/ArcFace).
+4. **Comparación**: distancia/coseno, umbral configurable por **nivel de seguridad** y **área**.
+5. **Fusión con QR** (si aplica) + políticas (doble factor).
 6. **Registro de evento** (usuario, cámara, score, zona, decisión).
 
 > **Nota**: para datasets/modelos, usar **Git LFS** o almacenamiento externo; evitar subir miles de imágenes al repo estándar.
@@ -77,18 +77,20 @@ App web **full‑stack** (Backend **Django**, Frontend **React**) para **gestion
 - **Reporting**: informes, exportes y analíticas.
 
 ### Modelos (resumen)
-- `Person` (role, doc_id, photo, embeddings)  
-- `Device` (type, camera_uri, zone, status)  
-- `Zone` (name, type: common/restricted, policies)  
-- `AccessRule` (zone, schedule, min_score, factors)  
-- `AccessEvent` (person, device, zone, type: in/out, score, method: face/qr/both)  
-- `Movement` (person, from_zone, to_zone, time_span)  
+
+- `Person` (role, doc_id, photo, embeddings)
+- `Device` (type, camera_uri, zone, status)
+- `Zone` (name, type: common/restricted, policies)
+- `AccessRule` (zone, schedule, min_score, factors)
+- `AccessEvent` (person, device, zone, type: in/out, score, method: face/qr/both)
+- `Movement` (person, from_zone, to_zone, time_span)
 
 ---
 
 ## 🔗 API (ejemplos)
 
 Autenticación:
+
 ```http
 POST /api/auth/login
 Authorization: (none)
@@ -97,6 +99,7 @@ Body: { "username": "admin", "password": "..." }
 ```
 
 Verificación QR (servidor valida firma y vigencia):
+
 ```http
 POST /api/access/verify-qr
 Authorization: Bearer <access>
@@ -105,6 +108,7 @@ Body: { "qr": "<payload/base64>" }
 ```
 
 Evento facial:
+
 ```http
 POST /api/access/verify-face
 Authorization: Bearer <access>
@@ -113,6 +117,7 @@ Body: { "device_id": "cam-01", "image": "<base64>", "mode": "in" }
 ```
 
 Listar actividad (filtros):
+
 ```http
 GET /api/events?zone=LAB-IA&from=2025-10-01&to=2025-10-30
 Authorization: Bearer <access>
@@ -134,6 +139,7 @@ Authorization: Bearer <access>
 ## ⚙️ Configuración rápida (DEV)
 
 ### Backend (Django)
+
 ```bash
 cd servers/django
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
@@ -146,6 +152,7 @@ python manage.py runserver 0.0.0.0:8000
 ```
 
 **.env.example** (backend)
+
 ```
 DEBUG=true
 SECRET_KEY=change_me
@@ -159,6 +166,7 @@ MEDIA_ROOT=./uploads
 ```
 
 ### Frontend (React)
+
 ```bash
 cd servers/react
 npm install   # o yarn
@@ -167,6 +175,7 @@ npm run dev   # o yarn dev
 ```
 
 **.env.example** (frontend)
+
 ```
 VITE_API_BASE=http://localhost:8000/api
 VITE_WS_BASE=ws://localhost:8000/ws
@@ -200,6 +209,7 @@ deploy/
 ```
 
 Comandos:
+
 ```bash
 docker compose pull
 docker compose up -d --build
@@ -207,8 +217,9 @@ docker compose logs -f
 ```
 
 Buenas prácticas prod:
+
 - **HTTPS** (Let’s Encrypt) y **HTTP/2**.
-- **SECURE_*** flags en Django, **HSTS**, **CSP**.
+- **SECURE\_\*** flags en Django, **HSTS**, **CSP**.
 - **ALLOWED_HOSTS** fijo y **CORS** acotado.
 - **Workers** gunicorn + autorestart (systemd).
 - **Backups** BD + rotación de logs.
@@ -240,20 +251,20 @@ Buenas prácticas prod:
 
 ## 📜 Licencia
 
-MIT — ver `LICENSE` (ajústala si el proyecto requiere una licencia distinta).
+MIT — ver `LICENSE` (SENA).
 
 ---
 
 ## 🤝 Contribuciones
 
-Issues y PRs son bienvenidos. Abre un ticket con tus propuestas o bugs.  
-Para grandes cambios, por favor abre primero un issue para discutir lo que te gustaría cambiar.
+Issues y PRs son bienvenidos. Abre un ticket con tus propuestas o bugs.
 
 ---
 
 ## ✅ Checklists rápidas
 
 **Antes de producción**
+
 - [ ] SECRET_KEY/QR_SECRET_KEY rotadas y seguras
 - [ ] HTTPS + HSTS + CSP
 - [ ] BD en PostgreSQL + backups
@@ -262,7 +273,23 @@ Para grandes cambios, por favor abre primero un issue para discutir lo que te gu
 - [ ] Aviso de privacidad y consentimiento biométrico
 
 **Mantenimiento**
+
 - [ ] Rotación de logs
 - [ ] Monitoreo de cámaras (heartbeat)
 - [ ] Re‑entrenamiento/perfilado de embeddings
 - [ ] Revisión de accesos anómalos
+
+---
+
+## 👥 Equipo & Créditos
+
+**Desarrolladores Aprendices SENA — CTPI Regional Cauca, Popayán, Colombia**
+
+- **Yeimy Fabián Méndez Mendoza** — _Líder del Proyecto / Product Owner_
+- **Juan David Domínguez** — _Backend & API (Django/DRF), Seguridad y Autenticación_
+- **Juan David Erazo** — _Frontend (React), UX/UI y Experiencia de Usuario_
+- **Deiby Emanuel** — _Visión por Computador (OpenCV/RTSP) & DevOps/Infra (Docker, Nginx)_
+
+> Este proyecto fue desarrollado en el marco de formación SENA, **Centro de Teleinformática y Producción Industrial (CTPI) — Regional Cauca, Popayán, Colombia**.
+
+---
