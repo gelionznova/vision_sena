@@ -284,6 +284,7 @@ Issues y PRs son bienvenidos. Abre un ticket con tus propuestas o bugs.
 ## 👥 Equipo & Créditos
 
 **Desarrolladores Aprendices SENA — CTPI Regional Cauca, Popayán, Colombia**
+**Tecnico Procesamiento de Datos para Modelos de Inteligencia Artificial - Ficha 2993008**
 
 - **Yeimy Fabián Méndez Mendoza** — _Líder del Proyecto / Product Owner_
 - **Juan David Domínguez** — _Backend & API (Django/DRF), Seguridad y Autenticación_
